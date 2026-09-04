@@ -1,1 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Begum ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap');
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 100%);
+            color: #4a2c32;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts */
+        .heart-bg {
+            position: fixed;
+            top: -10vh;
+            color: rgba(233, 30, 99, 0.25);
+            font-size: 22px;
+            animation: fall 5s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Music Button */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffffff;
+            border: 1px solid #f48fb1;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 100;
+            font-size: 18px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 30px 22px;
+            box-shadow: 0 15px 35px rgba(233, 30, 99, 0.2);
+            border: 1px solid #f8bbd0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            min-height: 520px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Steps System */
+        .step {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .step.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tag {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #c2185b;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 34px;
+            color: #880e4f;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #ad1457;
+            font-style: italic;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        /* Timer */
+        .timer-box {
+            background: #fce4ec;
+            padding: 14px;
+            border-radius: 16px;
+            width: 100%;
+            margin-top: 15px;
+            border: 1px dashed #f48fb1;
+        }
+
+        .timer-title {
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #c2185b;
+            font-weight: 600;
+        }
+
+        .timer-count {
+            font-size: 28px;
+            font-weight: 600;
+            color: #880e4f;
+            margin-top: 2px;
+        }
+
+        /* Cards List */
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border-left: 4px solid #e91e63;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .card p {
+            font-size: 12px;
+            font-weight: 600;
+            color: #880e4f;
+            margin-bottom: 2px;
+        }
+
+        .card span {
+            font-size: 11px;
+            color: #ad1457;
+        }
+
+        /* Meter Section */
+        .meter-box {
+            background: #ffffff;
+            padding: 18px 14px;
+            border-radius: 18px;
+            width: 100%;
+            border: 1px solid #f8bbd0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 14px;
+            background: #f8bbd0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f48fb1, #ad1457);
+            border-radius: 10px;
+            transition: width 0.08s ease;
+        }
+
+        .meter-val {
+            font-size: 26px;
+            font-weight: 700;
+            color: #880e4f;
+        }
+
+        .error-msg {
+            color: #d32f2f;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .cuteness-box {
+            display: none;
+            background: #fff0f5;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid #ffb6c1;
+            width: 100%;
+            margin-top: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #e91e63, #880e4f);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Pagination Dots */
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #f48fb1;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #880e4f;
+            width: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="music-btn" onclick="toggleMusic()">🎵</button>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        
+        <!-- STEP 1: Welcome Screen -->
+        <div class="step active" id="step1">
+            <div style="font-size: 40px; margin-bottom: 10px;">🌹</div>
+            <div class="tag">PREPARED WITH LOVE ✨</div>
+            <h1 style="font-size: 26px; margin: 15px 0;">Something special is loading for you...</h1>
+            <p class="subtitle">Please turn on your sound & tap below.</p>
+            <button class="btn" onclick="nextStep(2)">READ MY HEART 🌹</button>
+        </div>
+
+        <!-- STEP 2: Apology & Quotes -->
+        <div class="step" id="step2">
+            <div class="tag">✦ A MESSAGE FOR YOU ✦</div>
+            <h1>Begum</h1>
+            <div class="subtitle">There are things I should have said sooner. This is my attempt.</div>
+
+            <div class="cards-list">
+                <div class="card">
+                    <p>"You are still my favourite person."</p>
+                    <span>That hasn't changed. It won't.</span>
+                </div>
+                <div class="card">
+                    <p>"I'm sorry for the pain I caused."</p>
+                    <span>You deserved softness, always.</span>
+                </div>
+                <div class="card">
+                    <p>"I would still choose you in every universe."</p>
+                    <span>Without hesitation. Always you.</span>
+                </div>
+                <div class="card">
+                    <p>"Please don't let this be our ending."</p>
+                    <span>We are worth more than this silence.</span>
+                </div>
+            </div>
+
+            <div class="timer-box">
+                <div class="timer-title">Seconds Since I Started Missing You</div>
+                <div class="timer-count" id="timer">1</div>
+            </div>
+
+            <button class="btn" onclick="nextStep(3)">ONE MORE THING... ✨</button>
+        </div>
+
+        <!-- STEP 3: Scientific Meter Overflow -->
+        <div class="step" id="step3">
+            <div class="tag">COMPLETELY SCIENTIFIC</div>
+            <h2 style="color:#880e4f; font-family:'Playfair Display', serif; margin-bottom: 4px;">The Forgiveness Meter™</h2>
+            <div style="font-size: 11px; color: #ad1457; margin-bottom: 15px;">Advanced AI calculating love levels...</div>
+
+            <div class="meter-box">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+                <div class="meter-val" id="meterText">0%</div>
+                <div class="error-msg" id="errorMsg">🚨 ERROR: TOO MUCH LOVE DETECTED</div>
+            </div>
+
+            <div class="cuteness-box" id="cutenessBox">
+                <h4 style="color:#880e4f; margin-bottom: 4px;">Cuteness Meter Broken! 💖</h4>
+                <p style="font-size:11px; color:#ad1457;">You are officially 120% more cute than anyone else in the universe.</p>
+            </div>
+
+            <button class="btn" id="meterNextBtn" style="display:none;" onclick="nextStep(4)">SEE SURPRISE 🎁</button>
+        </div>
+
+        <!-- STEP 4: Final Proposal / Forgive Me -->
+        <div class="step" id="step4">
+            <div style="font-size: 45px; margin-bottom: 10px;">🌹</div>
+            <h1>You are still my favourite</h1>
+            <p class="subtitle">In every version of this life, in every universe that exists — I would still choose you.</p>
+
+            <div style="margin: 20px 0; width: 100%;">
+                <button class="btn" id="finalBtn" onclick="grantForgiveness()">FORGIVE ME? 🌹</button>
+            </div>
+
+            <div style="font-size: 11px; color: #a36875; font-style: italic; margin-top: 10px;">
+                Always yours. Always.
+            </div>
+        </div>
+
+        <!-- Navigation Dots -->
+        <div class="dots">
+            <div class="dot active" id="dot1"></div>
+            <div class="dot" id="dot2"></div>
+            <div class="dot" id="dot3"></div>
+            <div class="dot" id="dot4"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // Floating Hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerText = '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 400);
+
+        // Music Player
+        const music = document.getElementById('bgMusic');
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
+        }
+
+        // Live Timer
+        let seconds = 1;
+        setInterval(() => {
+            seconds++;
+            document.getElementById('timer').innerText = seconds;
+        }, 1000);
+
+        // Step Navigation
+        function nextStep(stepNum) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+
+            document.getElementById('step' + stepNum).classList.add('active');
+            document.getElementById('dot' + stepNum).classList.add('active');
+
+            if (stepNum === 2) {
+                music.play().catch(() => {}); // Auto start music
+            }
+
+            if (stepNum === 3) {
+                runMeterAnimation();
+            }
+        }
+
+        // Meter Breakdown Animation
+        function runMeterAnimation() {
+            let percent = 0;
+            let progressFill = document.getElementById('progress');
+            let meterText = document.getElementById('meterText');
+            let errorMsg = document.getElementById('errorMsg');
+            let cutenessBox = document.getElementById('cutenessBox');
+            let meterNextBtn = document.getElementById('meterNextBtn');
+
+            let interval = setInterval(() => {
+                if (percent < 100) {
+                    percent += 2;
+                    progressFill.style.width = percent + '%';
+                    meterText.innerText = percent + '%';
+                } else {
+                    clearInterval(interval);
+                    meterText.innerText = "???%";
+                    progressFill.style.background = "#d32f2f";
+                    errorMsg.style.display = "block";
+                    
+                    setTimeout(() => {
+                        cutenessBox.style.display = "block";
+                        meterNextBtn.style.display = "block";
+                    }, 800);
+                }
+            }, 50);
+        }
+
+        // Final Button Click
+        function grantForgiveness() {
+            let btn = document.getElementById('finalBtn');
+            btn.innerText = "ALWAYS MINE 💕";
+            btn.style.background = "linear-gradient(135deg, #2e7d32, #1b5e20)";
+            btn.style.boxShadow = "0 5px 15px rgba(46, 125, 50, 0.4)";
+        }
+    </script>
+</body>
+</html>
