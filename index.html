@@ -64,7 +64,7 @@
         .container {
             width: 100%;
             max-width: 380px;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 28px;
             padding: 30px 22px;
@@ -85,8 +85,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            animation: fadeIn 0.5s ease forwards;
+            width: 100%;
+            animation: fadeIn 0.4s ease forwards;
         }
 
         .step.active {
@@ -109,26 +109,26 @@
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 34px;
+            font-size: 32px;
             color: #880e4f;
             margin-bottom: 6px;
         }
 
         .subtitle {
-            font-size: 13px;
+            font-size: 12px;
             color: #ad1457;
             font-style: italic;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             line-height: 1.4;
         }
 
         /* Timer */
         .timer-box {
             background: #fce4ec;
-            padding: 14px;
+            padding: 12px;
             border-radius: 16px;
             width: 100%;
-            margin-top: 15px;
+            margin-top: 10px;
             border: 1px dashed #f48fb1;
         }
 
@@ -141,7 +141,7 @@
         }
 
         .timer-count {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 600;
             color: #880e4f;
             margin-top: 2px;
@@ -159,10 +159,10 @@
 
         .card {
             background: #ffffff;
-            padding: 12px 14px;
-            border-radius: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
             border-left: 4px solid #e91e63;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
 
         .card p {
@@ -180,12 +180,12 @@
         /* Meter Section */
         .meter-box {
             background: #ffffff;
-            padding: 18px 14px;
+            padding: 16px 14px;
             border-radius: 18px;
             width: 100%;
             border: 1px solid #f8bbd0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .progress-bar {
@@ -206,7 +206,7 @@
         }
 
         .meter-val {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             color: #880e4f;
         }
@@ -222,7 +222,7 @@
         .cuteness-box {
             display: none;
             background: #fff0f5;
-            padding: 14px;
+            padding: 12px;
             border-radius: 14px;
             border: 1px solid #ffb6c1;
             width: 100%;
@@ -282,20 +282,20 @@
 
     <div class="container">
         
-        <!-- STEP 1: Welcome Screen -->
+        <!-- STEP 1 -->
         <div class="step active" id="step1">
             <div style="font-size: 40px; margin-bottom: 10px;">🌹</div>
             <div class="tag">PREPARED WITH LOVE ✨</div>
-            <h1 style="font-size: 26px; margin: 15px 0;">Something special is loading for you...</h1>
+            <h1 style="font-size: 24px; margin: 15px 0;">Something special is loading for you...</h1>
             <p class="subtitle">Please turn on your sound & tap below.</p>
-            <button class="btn" onclick="nextStep(2)">READ MY HEART 🌹</button>
+            <button class="btn" onclick="goToStep(2)">READ MY HEART 🌹</button>
         </div>
 
-        <!-- STEP 2: Apology & Quotes -->
+        <!-- STEP 2 -->
         <div class="step" id="step2">
             <div class="tag">✦ A MESSAGE FOR YOU ✦</div>
             <h1>Begum</h1>
-            <div class="subtitle">There are things I should have said sooner. This is my attempt.</div>
+            <div class="subtitle">There are things I should have said sooner.</div>
 
             <div class="cards-list">
                 <div class="card">
@@ -321,14 +321,14 @@
                 <div class="timer-count" id="timer">1</div>
             </div>
 
-            <button class="btn" onclick="nextStep(3)">ONE MORE THING... ✨</button>
+            <button class="btn" onclick="goToStep(3)">ONE MORE THING... ✨</button>
         </div>
 
-        <!-- STEP 3: Scientific Meter Overflow -->
+        <!-- STEP 3 -->
         <div class="step" id="step3">
             <div class="tag">COMPLETELY SCIENTIFIC</div>
             <h2 style="color:#880e4f; font-family:'Playfair Display', serif; margin-bottom: 4px;">The Forgiveness Meter™</h2>
-            <div style="font-size: 11px; color: #ad1457; margin-bottom: 15px;">Advanced AI calculating love levels...</div>
+            <div style="font-size: 11px; color: #ad1457; margin-bottom: 12px;">Advanced AI calculating love levels...</div>
 
             <div class="meter-box">
                 <div class="progress-bar">
@@ -343,10 +343,10 @@
                 <p style="font-size:11px; color:#ad1457;">You are officially 120% more cute than anyone else in the universe.</p>
             </div>
 
-            <button class="btn" id="meterNextBtn" style="display:none;" onclick="nextStep(4)">SEE SURPRISE 🎁</button>
+            <button class="btn" id="meterNextBtn" onclick="goToStep(4)">SEE SURPRISE 🎁</button>
         </div>
 
-        <!-- STEP 4: Final Proposal / Forgive Me -->
+        <!-- STEP 4 -->
         <div class="step" id="step4">
             <div style="font-size: 45px; margin-bottom: 10px;">🌹</div>
             <h1>You are still my favourite</h1>
@@ -402,7 +402,9 @@
         }, 1000);
 
         // Step Navigation
-        function nextStep(stepNum) {
+        let meterAnimated = false;
+
+        function goToStep(stepNum) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
 
@@ -410,10 +412,11 @@
             document.getElementById('dot' + stepNum).classList.add('active');
 
             if (stepNum === 2) {
-                music.play().catch(() => {}); // Auto start music
+                music.play().catch(() => {});
             }
 
-            if (stepNum === 3) {
+            if (stepNum === 3 && !meterAnimated) {
+                meterAnimated = true;
                 runMeterAnimation();
             }
         }
@@ -425,7 +428,6 @@
             let meterText = document.getElementById('meterText');
             let errorMsg = document.getElementById('errorMsg');
             let cutenessBox = document.getElementById('cutenessBox');
-            let meterNextBtn = document.getElementById('meterNextBtn');
 
             let interval = setInterval(() => {
                 if (percent < 100) {
@@ -437,13 +439,9 @@
                     meterText.innerText = "???%";
                     progressFill.style.background = "#d32f2f";
                     errorMsg.style.display = "block";
-                    
-                    setTimeout(() => {
-                        cutenessBox.style.display = "block";
-                        meterNextBtn.style.display = "block";
-                    }, 800);
+                    cutenessBox.style.display = "block";
                 }
-            }, 50);
+            }, 40);
         }
 
         // Final Button Click
